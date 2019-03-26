@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/di/base/component.dart';
 import 'package:flutter_template/di/base/injector.dart';
 import 'package:flutter_template/di/homepage_module.dart';
 import 'package:flutter_template/ui/base/widget_state.dart';
@@ -22,26 +23,13 @@ class _HomePageState extends WidgetState<MyHomePage, HomePageModel> {
   GlobalKey<ScaffoldState> _scaffoldState = GlobalKey();
 
   @override
-  Widget build(BuildContext context) {
-    return Injector(
-      component: HomePageComponent(
-        Injector.of(context).component,
-        _scaffoldState,
-      ),
-      builder: _buildPage,
-    );
-  }
+  Component get component => HomePageComponent(
+    Injector.of(context).component,
+    _scaffoldState,
+  );
 
-  void showSnack() {
-    _scaffoldState.currentState.showSnackBar(
-      SnackBar(
-        content: Text("Snack with error"),
-      ),
-    );
-  }
-
-  Widget _buildPage(BuildContext context) {
-    wm = Injector.of(context).get(HomePageModel);
+  @override
+  Widget buildState(BuildContext context) {
     return Scaffold(
       key: _scaffoldState,
       appBar: AppBar(
